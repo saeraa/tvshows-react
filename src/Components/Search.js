@@ -1,13 +1,14 @@
 import React, { memo } from 'react'
 import TVShow from "./TVShow"
 import { Context } from "../Context"
+import FadeIn from 'react-fade-in'
+
 
 
 const Search = memo((props) => {
     const { shows, searchForShow } = React.useContext(Context)
-    const [search, setSearch] = React.useState("Search for shows")
+    const [search, setSearch] = React.useState("")
     let displayResults
-    console.log(shows)
 
     if (shows[0] !== "error message") {
         displayResults = shows.map(item => {
@@ -16,7 +17,7 @@ const Search = memo((props) => {
                     id={item.show.id}
                     key={item.show.id}
                     show={item}
-                    image={item.show.image ? item.show.image.original : "https://images.unsplash.com/photo-1560109947-543149eceb16?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80"}
+                    image={item.show.image ? item.show.image.original : "nogo"}
                     url={item.show.url}
                     name={item.show.name}
                     rating={item.show.rating.average}
@@ -28,23 +29,24 @@ const Search = memo((props) => {
                 />
             )
         })
-    } else { displayResults = <p className='errorMessage'>Sorry, couldn't find any shows. Try again.</p> }
-
-    function changeSearch(e) {
-        setSearch(e.target.value)
+    } else {
+        displayResults = <p className='error-message'>Sorry, couldn't find any shows. Try again.</p>
     }
 
-    function getResults() {
-        searchForShow(search)
-    }
+    function changeSearch(e) { setSearch(e.target.value) }
 
+    function getResults() { searchForShow(search) }
 
     return (
-        <main>
-            <div className="search-container">
-                <input className="search-input" type="search" placeholder="Search for things" value={search} onChange={changeSearch} />
-                <button className="search-button" type="button" onClick={getResults}>Search</button>
-            </div>
+        <main id="maincontent">
+            <FadeIn delay={50}>
+                <div className="search-container">
+                    <input className="search-input" type="search" placeholder="Search for TV shows" value={search} onChange={changeSearch}
+                        onKeyPress={(e) => { if (e.key === "Enter") { getResults() } }}
+                    />
+                    <button className="search-button" type="button" onClick={getResults}>Search</button>
+                </div>
+            </FadeIn>
 
             <div>
                 {displayResults}

@@ -7,7 +7,7 @@ import Watchlist from "./Components/Watchlist"
 
 function App() {
   return (
-    <div className="">
+    <>
       <Header />
       <Routes>
         <Route exact path="/" element={<Search />}>
@@ -15,7 +15,7 @@ function App() {
         <Route path="/watchlist" element={<Watchlist />}>
         </Route>
       </Routes>
-    </div>
+    </>
   )
 }
 
